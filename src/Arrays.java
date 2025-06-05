@@ -3,8 +3,9 @@
 import java.util.Scanner;
 public class Arrays {
     public static void main(String[] args) {
-       int[] arr=new int[]{1,2,3,4,5};
-       bsearch(arr);
+      /* int[] arr=new int[]{1,2,3,4,5};
+       bsearch(arr);   */
+        revnum(15432);
         }
         /// /////////printing elements of array
     public static void printa(int[] arr){
@@ -34,7 +35,7 @@ public class Arrays {
     }
     /// //////////////rotate
     public static void rotatea(int[] arr){
-        System.out.println("enter no. of right operations to be performed:");
+        System.out.println("enter no. of right rotations to be performed:");
         Scanner sc=new Scanner(System.in);
         int j=sc.nextInt();
         for(int m=1;m<=j;m++) {
@@ -152,6 +153,17 @@ public class Arrays {
         for (int l = 0; l < arr.length; l++) {
             System.out.println(arr[l]);
         }
+    }
+    /// ///////reverse a number
+    public static void revnum(int num){
+        int newnum=0;
+        System.out.println("before:"+num);
+        while(num!=0) {
+            int i = num % 10;
+            newnum = newnum * 10 + i;
+            num = num / 10;
+        }
+        System.out.println("after:"+newnum);
     }
 
 }
