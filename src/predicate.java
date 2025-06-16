@@ -1,9 +1,8 @@
 import org.w3c.dom.ls.LSOutput;
-import java.util.function.Function;
+import java.util.function.*;
+import java.util.function.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.function.Consumer;
 
 public class predicate {
     public static void main(String[] args) {
@@ -104,6 +103,28 @@ public class predicate {
         System.out.println("\n");
         Consumer<List<Integer>> consumer5=consumer3.andThen(consumer2);
         consumer5.accept(numbers);
+        System.out.println("Supplier Interface Example");
+        Supplier<Integer> supplier=()->1;
+        System.out.println(supplier.get()); // 1
+        System.out.println("Bipredicate Interface Example");
+        BiPredicate<Integer, Integer> bipredicsate=(m,n)->m%2==0 && n%2==0;
+        System.out.println(bipredicsate.test(2, 4)); // true
+        System.out.println("Bifunction Interface Example");
+        BiFunction<String,String,Integer> bifunction=(s1,s2)->s1.length()+s2.length();
+        System.out.println(bifunction.apply("Hello", "World")); // 10
+        System.out.println("Biconsumer Interface Example");
+        BiConsumer<Integer,Integer> biconsumer=(a,b)-> {
+            System.out.println(a+ b);
+        };
+        biconsumer.accept(5, 10); // prints 15
+        System.out.println("UnaryOperator Interface Example");
+        UnaryOperator<Integer> unaryOperator=(a)->a+a;
+        System.out.println(unaryOperator.apply(5)); // 10
+        UnaryOperator<String> unaryOperator2=(s)->s.toUpperCase();
+        System.out.println(unaryOperator2.apply("hello")); // HELLO
+        System.out.println("BinaryOperator Interface Example");
+        BinaryOperator<String> binaryOperator=(s1,s2)->s1+s2;
+        System.out.println(binaryOperator.apply("Hello", "World")); // HelloWorld
     }
 }
 class student2{
