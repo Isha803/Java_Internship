@@ -13,5 +13,6 @@ public class optional_class {
         String name="Venessa";
         //String name=null;
         return Optional.ofNullable(name);
+        //return Optional.empty();
     }
 }
