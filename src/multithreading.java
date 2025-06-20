@@ -68,17 +68,17 @@ public class multithreading {
     }
 }*/
 ////Synchronization
-/*class Counter {
+class Counter {
     private int count = 0;
 // critical section
-//    public synchronized void increment() {
-//        count++;
-//    }
     public void increment() {
-        synchronized (this) {
-            count++;
-        }
+        count++;
     }
+//    public void increment() {
+//        synchronized (this) {
+//            count++;
+//        }
+
 
     public int getCount() {
         return count;
@@ -114,7 +114,7 @@ class multithreading{
         }
         System.out.println("Final count: " + counter.getCount());
     }
-}*/
+}
 ////Lock
 /*class BankAccount {
     private int balance = 1000;
@@ -241,7 +241,7 @@ class multithreading {
     }
 }*/
 /// /ReadWriteLock
-class multithreading {
+/*class multithreading {
     private int count = 0;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Lock readLock = lock.readLock();
@@ -250,7 +250,10 @@ class multithreading {
         writeLock.lock();
         try {
             count++;
-        } finally {
+            Thread.sleep(50);
+        } catch(InterruptedException e){
+            throw new RuntimeException(e);
+        }finally {
             writeLock.unlock();
         }
     }
@@ -268,7 +271,7 @@ class multithreading {
             @Override
             public void run() {
                 for(int i=0;i<10;i++){
-                    System.out.println(Thread.currentThread().getName()+"read:+count="+counter.getCount());
+                    System.out.println(Thread.currentThread().getName()+"read:"+counter.getCount());
                 }
             }
         };
@@ -292,4 +295,73 @@ class multithreading {
         readerThread2.join();
         System.out.println("Final count: " + counter.getCount());
     }
+}*/
+////Deadlock
+/*class Pen {
+    public synchronized void writeWithPenAndPaper(Paper paper) {
+        System.out.println(Thread.currentThread().getName() + " is using pen " + this + " and trying to use paper " + paper);
+        paper.finishWriting();
+    }
+
+    public synchronized void finishWriting() {
+        System.out.println(Thread.currentThread().getName() + " finished using pen " + this);
+    }
 }
+
+class Paper {
+    public synchronized void writeWithPaperAndPen(Pen pen) {
+        System.out.println(Thread.currentThread().getName() + " is using paper " + this + " and trying to use pen " + pen);
+        pen.finishWriting();
+    }
+
+    public synchronized void finishWriting() {
+        System.out.println(Thread.currentThread().getName() + " finished using paper " + this);
+    }
+}
+class Task1 implements Runnable {
+    private Pen pen;
+    private Paper paper;
+
+    public Task1(Pen pen, Paper paper) {
+        this.pen = pen;
+        this.paper = paper;
+    }
+
+    @Override
+    public void run() {
+        pen.writeWithPenAndPaper(paper); // thread1 locks pen and tries to lock paper
+    }
+}
+
+class Task2 implements Runnable {
+    private Pen pen;
+    private Paper paper;
+
+    public Task2(Pen pen, Paper paper) {
+        this.pen = pen;
+        this.paper = paper;
+    }
+
+    @Override
+    public void run() {
+        synchronized (pen){
+            paper.writeWithPaperAndPen(pen); // thread2 locks paper and tries to lock pen
+        }
+    }
+}
+public class multithreading {
+    public static void main(String[] args) {
+        Pen pen = new Pen();
+        Paper paper = new Paper();
+
+        Thread thread1 = new Thread(new Task1(pen, paper), "Thread-1");
+        Thread thread2 = new Thread(new Task2(pen, paper), "Thread-2");
+
+        thread1.start();
+        thread2.start();
+    }
+}*/
+////Thread Communication
+////Thread Safety
+/// /Thread using lambda expression
+////Thread Pool
