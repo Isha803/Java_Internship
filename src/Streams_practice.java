@@ -1,7 +1,5 @@
-import java.util.List;
+import java.util.*;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -64,6 +62,65 @@ public class Streams_practice {
         stringList.stream().sorted().forEach(System.out::println);
         //Find the longest string that contains the word "apple".
         System.out.println("Finding the longest string that contains the word 'apple':");
+        System.out.println(stringList.stream().filter(x->x.toLowerCase().contains("apple"))
+                .max(Comparator.comparingInt(String::length)));
+        //Sorting of maps on the basis of associated values
+        Map<Integer,String> map=new HashMap<>();
+        map.put(1,"apple");
+        map.put(2,"banana");
+        map.put(3,"cherry");
+        map.put(4,"apple pie");
+        map.put(5,"banana split");
+        map.put(6,"apple tart");
+        map.put(7,"avocado");
+        map.put(8,"apricot");
+        map.put(9,"blueberry");
+        map.put(10,"orange");
+        map.put(11,"orange");
+        System.out.println(map);
+        Map<Integer, String> lmap = map.entrySet()
+                .stream()
+                .sorted((a, b) -> a.getValue().compareTo(b.getValue()))
+                .collect(Collectors.toMap(
+                        e1 -> e1.getKey(),
+                        e1 -> e1.getValue(),
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new));
 
+        System.out.println("Sorted map based on values: " + lmap);
+        //find duplicate elements in a list
+        System.out.println("Finding duplicate elements in a list:");
+        Set<String> duplicates = new HashSet<>();
+        stringList.stream().filter(n-> !duplicates.add(n))
+                .forEach(System.out::println);
+        //Group people by age
+        class Person {
+            String name;
+            int age;
+            Person(String n, int a) { name = n; age = a; }
+            @Override
+            public String toString() {
+                return "name=" + name + ", age=" + age;
+            }
+        }
+
+        List<Person> people = List.of(
+                new Person("Alice", 30),
+                new Person("Bob", 40),
+                new Person("Charlie", 30)
+        );
+
+        Map<Integer, List<Person>> byAge = people.stream()
+                .collect(Collectors.groupingBy(p -> p.age));
+        System.out.println("Grouping people by age:");
+        System.out.println(byAge);
+        //Find the most frequent character in a string
+        String input = "mississippi";
+        Optional<Map.Entry<Character, Long>> x=input.chars().mapToObj(c->(char)c).collect(Collectors.groupingBy(c -> c, Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue());
+        System.out.println("Finding the most frequent character in the string: " + input);
+        x.ifPresentOrElse(c -> System.out.println("Most frequent character: " + c.getKey() + " with count: " + c.getValue()),
+                () -> System.out.println("No characters found")
+        );
     }
 }

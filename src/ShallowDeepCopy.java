@@ -77,6 +77,13 @@ class RecursionExample {
     }
 
     public static void main(String[] args) {
-        System.out.println(factorial(5)); // Output: 120
+        try {
+            System.out.println(factorial(500000000));
+        } catch(Throwable x) {
+            System.out.println("Own exception: " + x.getMessage());
+        } finally {
+            System.out.println("Finally block executed.");
+        }
+        System.out.println(); // Output: 120
     }
 }
