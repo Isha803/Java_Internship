@@ -119,8 +119,131 @@ public class Streams_practice {
         Optional<Map.Entry<Character, Long>> x=input.chars().mapToObj(c->(char)c).collect(Collectors.groupingBy(c -> c, Collectors.counting()))
                 .entrySet().stream().max(Map.Entry.comparingByValue());
         System.out.println("Finding the most frequent character in the string: " + input);
-        x.ifPresentOrElse(c -> System.out.println("Most frequent character: " + c.getKey() + " with count: " + c.getValue()),
-                () -> System.out.println("No characters found")
+//        x.ifPresentOrElse(c -> System.out.println("Most frequent character: " + c.getKey() + " with count: " + c.getValue()),
+//                () -> System.out.println("No characters found")
+//        );
+        long maxCount = x.get().getValue();
+//        System.out.println(maxCount);
+        Map<Character, Long> mostFrequentChars = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() == maxCount)
+                .collect(Collectors.toMap(y-> y.getKey(), y -> y.getValue(),
+                        (e1, e2) -> e1, LinkedHashMap::new));
+        System.out.println("Most frequent characters: " + mostFrequentChars);
+        //Find the longest word in a sentence
+        System.out.println("Finding the longest word in a sentence:");
+        String sentence = "The quick brown fox jumps over the lazy dog";
+        Optional z=Arrays.stream(sentence.split(" ")).map(m->m.length()).max((a,b)-> a-b);
+        System.out.println("Longest word length: " + z.orElse(0));
+        Arrays.stream(sentence.split(" "))
+                .filter(word -> word.length() == (int)z.orElse(0))
+                .forEach(System.out::println);
+        //Problem Statement: Employee Department Summary
+        System.out.println("Employee Department Summary:");
+        class Employee {
+            String name;
+            String department;
+            int salary;
+            int age;
+
+            // constructor, getters, setters
+            Employee(String name, String department, int salary, int age) {
+                this.name = name;
+                this.department = department;
+                this.salary = salary;
+                this.age = age;
+            }
+            @Override
+            public String toString() {
+                return "name=" + name + " department=" + department + " salary=" + salary + " age=" + age;
+            }
+        }
+        List<Employee> employees = Arrays.asList(
+                new Employee("Alice", "HR", 50000, 30),
+                new Employee("Bob", "IT", 60000, 35),
+                new Employee("Charlie", "IT", 70000, 40),
+                new Employee("David", "HR", 55000, 32),
+                new Employee("Eve", "Finance", 80000, 45),
+                new Employee("Chris", "Finance", 75000, 38)
         );
+        //Group employees by department.
+//        Map<String,List<Employee>> dept=employees.stream().collect(Collectors.groupingBy(e->e.department));
+//        System.out.println(dept);
+        //For each department, compute:
+        //The average salary.
+        //The maximum salary.
+        //The list of employee names sorted alphabetically.
+//        System.out.println(employees.stream().mapToInt(x1->x1.salary).average());
+//        List<String> dep=employees.stream().map(x2->x2.department).distinct().toList();
+//        System.out.println("Departments: " + dep);
+        //avg salary by department
+        Map<String, Double> avgSalaryByDept = employees.stream()
+                .collect(
+                        Collectors.groupingBy(e -> e.department, Collectors.averagingInt(e -> e.salary))
+                );
+        System.out.println("Average salary by department: " + avgSalaryByDept);
+
+        //max salary by department
+        Map<String, Optional<Employee>> maxSalaryByDept = employees.stream()
+                .collect(Collectors.groupingBy(e -> e.department, Collectors.maxBy(Comparator.comparingInt(e -> e.salary))));
+        System.out.println("Maximum salary by department: " + maxSalaryByDept);
+
+        //List of employee names sorted alphabetically
+        employees.stream().map(x2->x2.name).sorted().forEach(System.out::println);
+
+        //Sorting names by department
+        Map<String, List<Employee>> employeesByDeptSorted = employees.stream()
+                .sorted(Comparator.comparing(e -> e.name))
+                .filter(e -> e.salary >= 55000)
+                .collect(Collectors.groupingBy(e -> e.department, LinkedHashMap::new, Collectors.toList()));
+        System.out.println("Employees sorted by department: " + employeesByDeptSorted);
+//        Map<String,List<Employee>> sortNameByDept = employeesByDeptSorted.stream()
+//                .collect(Collectors.groupingBy(e -> e.department,Collectors.toList()));
+//        System.out.println("Sorting names by department: " + sortNameByDept);
+
+        //For each department, compute the number of employees.
+        Map<String, Long> employeeCountByDept = employees.stream()
+                .collect(Collectors.groupingBy(e -> e.department, Collectors.counting()));
+
+
+        System.out.println("Number of employees by department: " + employeeCountByDept);
+        System.out.println("Employee sorted by deppartment, with name and salary:");
+        Map<String, List<List<Object>>> result = employees.stream()
+                .collect(Collectors.groupingBy(
+                        h-> h.department,
+                        Collectors.mapping(
+                                e -> Arrays.asList(e.name, e.salary),
+                                Collectors.toList()
+                        )
+                ));
+        System.out.println(result);
+
+        //Map<String, Integer> maxSalaryByDeptSimple = employees.stream()
+        //    .collect(Collectors.groupingBy(
+        //        e -> e.department,   // group by department
+        //        Collectors.collectingAndThen(
+        //            Collectors.maxBy(Comparator.comparingInt(e -> e.salary)), // find max salary Employee
+        //            optEmp -> optEmp.map(emp -> emp.salary).orElse(0)         // extract just salary
+        //        )
+        //    ));
+        
+        // Expected Concepts:
+        //Collectors.groupingBy
+        //Collectors.averagingInt
+        //Collectors.maxBy
+        //Collectors.mapping
+        //Custom mapping/collector logic
+
+        //Return the result as a Map<String, DepartmentSummary>, where:
+        //class DepartmentSummary {
+        //    double averageSalary;
+        //    int maxSalary;
+        //    List<String> employeeNames;
+        //
+        //    // constructor, getters, setters, toString()
+        //}
+
     }
 }

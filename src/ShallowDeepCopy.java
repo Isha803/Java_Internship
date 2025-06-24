@@ -69,6 +69,14 @@
 
 //Recursion
 class RecursionExample {
+    static void revname(StringBuffer name,int i){
+        if(i < 0) {
+            return ;
+        }
+
+        revname(name,i-1);
+        System.out.println(name.charAt(i));
+    }
     static int factorial(int n) {
         if (n == 0 || n == 1)  // Base case
             return 1;
@@ -85,5 +93,7 @@ class RecursionExample {
             System.out.println("Finally block executed.");
         }
         System.out.println(); // Output: 120
+        StringBuffer myname = new StringBuffer("isha");
+        revname(myname,myname.length()-1);
     }
 }
