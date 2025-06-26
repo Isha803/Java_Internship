@@ -151,41 +151,83 @@ class RecursionExample {
         if (n == 0) return 1;
         return arr[n] * product(arr, n - 1);
     }
-    static void permutation(String str,Set<String> setstr,int i,StringBuilder sb){
-        if(i <= str.length() - 1) {
-            System.out.println(setstr);
+//    static void permutation(String str, Set<String> setstr, int l, StringBuilder sb) {
+//        if (l == str.length() - 1) {
+//            setstr.add(sb.toString());
+//            System.out.println(sb.toString());
+//            return;
+//        }
+//        for (int i = l; i < str.length(); i++) {
+//            // Swap characters at position l and i
+//            char temp = sb.charAt(l);
+//            sb.setCharAt(l, sb.charAt(i));
+//            sb.setCharAt(i, temp);
+//
+//            permutation(str, setstr, l + 1, sb);
+//
+//            // Backtrack (restore original string)
+//            temp = sb.charAt(l);
+//            sb.setCharAt(l, sb.charAt(i));
+//            sb.setCharAt(i, temp);
+//        }
+//    }
+//    static void permutation2(String str, Set<String> setstr, String ans) {
+//        if (str.length() == 0) {
+//            setstr.add(ans);
+//            System.out.println(ans);
+//            return;
+//        }
+//        for (int i = 0; i < str.length(); i++) {
+//            permutation2(str.substring(0, i) + str.substring(i + 1), setstr, ans + str.charAt(i));
+//        }
+//    }
+    static void permutation(String s, List<String> list, StringBuilder str, boolean[] vis){
+        // base case
+        if (str.length() == s.length()) {
+             list.add(str.toString());
+
             return;
         }
-        sb.setCharAt(i, str.charAt(i));
-        sb.setCharAt(i+1, str.charAt(i+2));
-        sb.setCharAt(i+2, str.charAt(i+1));
-        setstr.add(sb.toString());
-        permutation(str,setstr,i+1,sb);
+
+        for (int j=0; j<s.length(); j++) {
+            if (vis[j]) continue;
+            vis[j] = true;
+            permutation(s,list, str.append(s.charAt(j)), vis);
+            str.deleteCharAt(str.length()-1);
+            permutation(s,list, str, vis);
+            vis[j] = false;
+        }
     }
 
     //Flatten Nested List
     //Binary Search (Recursive)
 
     public static void main(String[] args) {
-        System.out.println(factorial(50));
-        System.out.println(); // Output: 120
-        String myname = "Isha";
-        revname(myname,myname.length()-1);
-        List<Integer> list=new ArrayList<>();
-        list.add(0);
-        list.add(1);
-        fibonacci(list,6,0,1);
-        System.out.println("Sum of first 5 natural numbers: " + sum(5));
-        System.out.println("Sum of digits of 12345: " + sumOfDigits(12345));
-        System.out.println("5 raised to the power 3: " + power(5, 3));
-        System.out.println("Number of zeros in 200: " + zeros(200));
-        System.out.println(list);
-        palindrome("madam", 0, "madam".length() - 1);
-        int[] arr = {1, 2, 3, 4, 5};
-        System.out.println("Product of array elements: " + product(arr, arr.length - 1));
-        StringBuilder sb = new StringBuilder();
-        Set<String> setstr = new HashSet<>();
-        String str = "abc";
-        permutation(str, setstr, 0,sb);
+//        System.out.println(factorial(50));
+//        System.out.println(); // Output: 120
+//        String myname = "Isha";
+//        revname(myname,myname.length()-1);
+//        List<Integer> list=new ArrayList<>();
+//        list.add(0);
+//        list.add(1);
+//        fibonacci(list,6,0,1);
+//        System.out.println("Sum of first 5 natural numbers: " + sum(5));
+//        System.out.println("Sum of digits of 12345: " + sumOfDigits(12345));
+//        System.out.println("5 raised to the power 3: " + power(5, 3));
+//        System.out.println("Number of zeros in 200: " + zeros(200));
+//        System.out.println(list);
+//        palindrome("madam", 0, "madam".length() - 1);
+//        int[] arr = {1, 2, 3, 4, 5};
+//        System.out.println("Product of array elements: " + product(arr, arr.length - 1));
+////        Set<String> setstr = new HashSet<>();
+////        String str = "abc";
+////        StringBuilder sb = new StringBuilder(str);
+////        permutation(str, setstr, 0,sb);
+////        permutation2(str,setstr, "");
+
+        List<String> listOfStr = new ArrayList<>();
+        String s = "abc";
+        permutation(s, listOfStr, new StringBuilder(""), new boolean[3]);
+        System.out.println("Permutations of 'abc': " + listOfStr);
     }
 }
