@@ -198,6 +198,34 @@ class RecursionExample {
             vis[j] = false;
         }
     }
+    static boolean isSorted(int[] arr, int i) {
+        if (i==0||i==1){
+            return true;
+        }
+        return arr[i-1] >= arr[i-2] && isSorted(arr, i - 1);
+//        if (i == arr.length - 1) {
+//            System.out.println("Array is sorted");
+//            return;
+//        }
+//        if (arr[i] > arr[i + 1]) {
+//            System.out.println("Array is not sorted");
+//            return;
+//        }
+//        isSorted(arr, i + 1);
+    }
+    static int bsearch(int[] arr,int s,int lb,int ub){
+        if(lb<=ub){
+            int mid = (lb + ub) / 2;
+            if(arr[mid] == s) return mid;
+            else if(arr[mid] < s){
+                return bsearch(arr, s, mid + 1, ub);
+            }
+            else{
+                return bsearch(arr, s, lb, mid - 1);
+            }
+        }
+        return -1;
+    }
 
     //Flatten Nested List
     //Binary Search (Recursive)
@@ -229,5 +257,10 @@ class RecursionExample {
         String s = "abc";
         permutation(s, listOfStr, new StringBuilder(""), new boolean[3]);
         System.out.println("Permutations of 'abc': " + listOfStr);
+        int[] arr = {1, 9, 2, 3, 4, 5};
+        System.out.println("Is the array sorted? " + isSorted(arr, arr.length));
+        int[] arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int search = 5;
+        System.out.println(bsearch(arr2, search, 0, arr2.length - 1));
     }
 }
