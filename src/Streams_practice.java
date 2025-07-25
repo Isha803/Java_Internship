@@ -40,8 +40,8 @@ public class Streams_practice {
         List<String> stringList = Arrays.asList("apple", "banana", "cherry", "apple pie", "banana split", "apple tart",
                 "avocado", "apricot", "blueberry", "blackberry","apple");
         //Find the second highest number in a list
-        list.stream().sorted((a,b)->b-a).skip(1).findFirst()
-                .ifPresentOrElse(x-> System.out.println(x),() -> System.out.println("No second highest number found!"));
+//        list.stream().sorted((a,b)->b-a).skip(1).findFirst()
+//                .ifPresentOrElse(x-> System.out.println(x),() -> System.out.println("No second highest number found!"));
         //count frequency of each word in a list
         Map<String,Long> frequencymap=stringList.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
         System.out.println("Frequency of each word in the list:"+ frequencymap);
@@ -104,7 +104,7 @@ public class Streams_practice {
             }
         }
 
-        List<Person> people = List.of(
+        List<Person> people = Arrays.asList(
                 new Person("Alice", 30),
                 new Person("Bob", 40),
                 new Person("Charlie", 30)
