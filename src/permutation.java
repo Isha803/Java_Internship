@@ -75,24 +75,40 @@ public class permutation {
            climbingStairs(totalSteps,outterlist,innerlist);
            innerlist.remove(innerlist.size()-1);
     }
-    public static void subsetSum(int totalSum,List<List<Integer>> outterlist,List<Integer> innerlist,List<Integer> givenSet){
-        int sumOfSubset=0;
-        for(int i:innerlist){
-            sumOfSubset=sumOfSubset+i;
-        }
-        if(sumOfSubset==totalSum){
+    public static void subsetSum(int totalSum,List<List<Integer>> outterlist,List<Integer> innerlist,List<Integer> givenSet,int n, boolean[] visited, int sum) {
+        if (sum == totalSum) {
             outterlist.add(new ArrayList<>(innerlist));
             return;
         }
-        else if (sumOfSubset>totalSum) {
+
+        if (n >= givenSet.size() || sum > totalSum) {
             return;
         }
-        innerlist.add(1);
-        subsetSum(totalSum,outterlist,innerlist,givenSet);
-        innerlist.remove(innerlist.size()-1);
-        innerlist.add(2);
-        subsetSum(totalSum,outterlist,innerlist,givenSet);
-        innerlist.remove(innerlist.size()-1);
+//        int sumOfSubset = 0;
+//        for (int i : innerlist) {
+//            sumOfSubset = sumOfSubset + i;
+//        }
+
+//
+//            //take
+//            innerlist.add(givenSet.get(n));
+//            subsetSum(totalSum, outterlist, innerlist, givenSet,n+1);
+//
+//            //skip
+//            innerlist.remove(innerlist.size() - 1);
+//            subsetSum(totalSum, outterlist, innerlist, givenSet, n+1);
+
+        for (int i = n; i < givenSet.size(); i++) {
+            if (!visited[i]){
+            visited[i]=true;
+            innerlist.add(givenSet.get(i));
+            sum += givenSet.get(i);
+            subsetSum(totalSum, outterlist, innerlist, givenSet, i+1, visited, sum);
+            sum -= givenSet.get(i);
+            innerlist.remove(innerlist.size()-1);
+            visited[i]=false;
+            }
+        }
     }
     public static void main(String[] args){
 //        String s = "abc";
@@ -122,7 +138,9 @@ public class permutation {
 
         List<Integer> il=new ArrayList<>();
         List<List<Integer>> ol=new ArrayList<>();
-        List<Integer> givenSet=Arrays.asList(20,30);
-        subsetSum(50,ol,il,new ArrayList<>(givenSet));
+        List<Integer> givenSet=Arrays.asList(10,20,30,40,50);
+        boolean[] vis = new boolean[givenSet.size()];
+        subsetSum(50,ol,il,givenSet,0, vis, 0);
+        System.out.println(ol);
     }
 }
