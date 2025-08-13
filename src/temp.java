@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 public class temp {
     public int[] twoSum(int[] nums, int target) {
         int a=-1;
@@ -36,6 +39,32 @@ public class temp {
         }
         return med;
     }
+    public boolean hasDuplicate(int[] nums) {
+        boolean flag=false;
+        for(int i=0;i<nums.length;i++){
+            for(int j=i+1;j< nums.length;j++){
+                if(nums[i]==nums[j]){
+                    flag=true;
+                }
+            }
+        }
+        return flag;
+    }
+    public boolean isAnagram(String s, String t) {
+        char[] s1 = s.toCharArray();
+        Arrays.sort(s1);
+        String sortedStr = new String(s1);
+        char[] s2 = t.toCharArray();
+        Arrays.sort(s2);
+        String sortedStr2 = new String(s2);
+        return sortedStr.equals(sortedStr2);
+    }
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> groupanagrams=new ArrayList<>();
+        for(int i=0;i<strs.length;i++){
+
+        }
+    }
 }
 class mainclass{
     public static void main(String[] args) {
@@ -47,9 +76,14 @@ class mainclass{
 //        System.out.println(Arrays.toString(aar2));
 
         /// ///////////
-        int[] arr1=new int[]{1,2};
-        int[] arr2=new int[]{5};
-        System.out.println(t.findMedianSortedArrays(arr1,arr2));
+//        int[] arr1=new int[]{1,2};
+//        int[] arr2=new int[]{5};
+//        System.out.println(t.findMedianSortedArrays(arr1,arr2));
 
+        /// //////////
+//        System.out.println(t.hasDuplicate(arr));
+
+        /// /////////
+//        System.out.println(t.isAnagram("haha","ahah"));
     }
 }
