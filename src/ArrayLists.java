@@ -15,7 +15,7 @@ class Student {
 }
 public class ArrayLists {
     public static void main(String[] args){
-//        ArrayList<String> a1=new ArrayList<>();
+        ArrayList<String> a1=new ArrayList<>();
 //        ArrayLists a=new ArrayLists();
 //            /// //////////using add function
 //            System.out.println("--------addition---------");
